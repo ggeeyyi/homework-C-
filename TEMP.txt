@@ -1,0 +1,50 @@
+#include<iostream>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+//判断A的特殊字符是否在B中存在
+bool judge(char a,char b[],int c){
+    for(int i=0;i<c;i++){
+        if(a==b[i]){
+            return false;
+        }
+    }
+    return true;
+}
+int main(){
+    string a,b;//a为主串，b为模式串
+    char special[100];//由于存储b中出现过的特殊字符
+    int flag=0;
+    bool word[52];//存储b中出现过的字母，成表
+    memset(word,false,sizeof(word));//将表全置空，也就是false
+    getline(cin,a);
+    getline(cin,b);
+    //对表进行初始化
+    for(int i=0;i<b.length();i++){
+        if(b[i]>='a'&&b[i]<='z'){
+            word[b[i]-'a']=true;
+        }else if(b[i]>='A'&&b[i]<='Z'){
+            word[b[i]-'A'+26]=true;
+        }else{
+            special[flag]=b[i];
+            flag++;
+        }
+    }
+    //对a进行遍历，并对表进行随机查找
+    for(int i=0;i<a.length();i++){
+        if(a[i]>='a'&&a[i]<='z'){
+            if(!word[a[i]-'a']){
+                cout<<a[i];
+            }
+        }else if(a[i]>='A'&&a[i]<='Z'){
+            if(!word[a[i]-'A'+26]){
+                cout<<a[i];
+            }
+        }else{
+            if(judge(a[i],special,flag)){//判断是否是b中的特殊字符
+                cout<<a[i];
+            }
+        }
+    }
+    return 0;
+}
